@@ -1,7 +1,6 @@
 """ important modules """
-import math
 import typing as tp
-
+import math
 """ Возможность ввода всей цепочки операций целиком и ее решение, если она введена корректно.
 Цепочка может содержать скобки (для тех, у кого получилось все остальное)
 Для реализации тригонометрических функций можно использовать
@@ -10,7 +9,7 @@ import typing as tp
 
 
 def common_num(num_1, num_2):
-    """function for the first check"""
+    """ function for the first check """
     b_1 = ""
     sim = "0123456789ABCDEF"
     num_1, num_2 = int(num_1), int(num_2)
@@ -27,10 +26,8 @@ def common_num(num_1, num_2):
             return b_1
         print("")
     return "Числa должны быть положительными"
-
-
 def input_check():
-    """function for input check"""
+    """ function for input check """
     while True:
         num = input("Введите число >")
         if num.isdigit():
@@ -42,7 +39,7 @@ def input_check():
 
 
 def match_case_calc(num_1: float, num_2: float, command: str) -> tp.Union[float, str]:
-    """function for math options"""
+    """  function for math options """
     match command:
         case "+":
             return num_1 + num_2
@@ -84,3 +81,4 @@ if __name__ == "__main__":
         NUM_1 = input_check()
         NUM_2 = input_check()
         print(match_case_calc(NUM_1, NUM_2, COMMAND))
+
