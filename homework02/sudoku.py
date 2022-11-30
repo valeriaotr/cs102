@@ -162,7 +162,6 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
 
 # b b a b b c a c a
 def generate_sudoku(N: int):
-    
     s = []
     r: tp.List[str] = []
     for i in range(9):
