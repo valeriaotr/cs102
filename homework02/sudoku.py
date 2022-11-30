@@ -187,6 +187,7 @@ def generate_sudoku(N: int):
                     b = random.randint(0, 8)
                 sol[a][b] = "."
                 N -= 1
+
     return sol
 
 
