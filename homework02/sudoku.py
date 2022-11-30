@@ -156,7 +156,6 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
         for j in range(0, len(solution[0])):
             if solution[i][j] == ".":
                 return False
-    # block = get_block(grid,)
 
     return True
 
