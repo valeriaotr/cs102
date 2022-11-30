@@ -5,14 +5,14 @@ import typing as tp
 
 def is_prime(n: int) -> bool:
     """
-        Tests to see if a number is prime.
-        >>> is_prime(2)
-        True
-        >>> is_prime(11)
-        True
-        >>> is_prime(8)
-        False
-        """
+    Tests to see if a number is prime.
+    >>> is_prime(2)
+    True
+    >>> is_prime(11)
+    True
+    >>> is_prime(8)
+    False
+    """
     if n > 1:
         # Iterate from 2 to n / 2
         for i in range(2, int(n / 2) + 1):
@@ -59,9 +59,7 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
 
     n = p * q
 
-
     phi = (p - 1) * (q - 1)
-    # PUT YOUR CODE HERE
 
     # Choose an integer e such that e and phi(n) are coprime
     e = random.randrange(1, phi)
