@@ -13,17 +13,16 @@ def is_prime(n: int) -> bool:
     >>> is_prime(8)
     False
     """
-    if n > 1:
-        # Iterate from 2 to n / 2
-        for i in range(2, int(n / 2) + 1):
-            # If num is divisible by any number between
-            # 2 and n / 2, it is not prime
-            if (n % i) == 0:
-                return False
-        else:
-            return True
-    else:
+    if n == 2:
+        return True
+    if n <= 1 or n % 2 == 0:
         return False
+    for i in range(3, int(n**0.5) + 1, 2):
+        # If num is divisible by any number between
+        # 2 and n / 2, it is not prime
+        if n % i == 0:
+            return False
+    return True
 
 
 def gcd(a: int, b: int) -> int:
@@ -34,12 +33,9 @@ def gcd(a: int, b: int) -> int:
     >>> gcd(3, 7)
     1
     """
-    while a != 0 and b != 0:
-        if a > b:
-            a = a % b
-        else:
-            b = b % a
-    return a + b
+    while b:
+        a, b = b, a % b
+    return a
 
 
 def multiplicative_inverse(e: int, phi: int) -> int:
@@ -49,7 +45,19 @@ def multiplicative_inverse(e: int, phi: int) -> int:
     >>> multiplicative_inverse(7, 40)
     23
     """
-    return pow(e, -1, phi)
+    token = 0
+    new = 1
+    ost = phi
+    new_ost = e
+    while new_ost != 0:
+        coef = ost // new_ost
+        token, new = new, token - coef * new
+        ost, new_ost = new_ost, ost - coef * new_ost
+    if ost > 1:
+        return 0
+    if token < 0:
+        token += phi
+    return token
 
 
 def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[int, int]]:
@@ -76,7 +84,7 @@ def generate_keypair(p: int, q: int) -> tp.Tuple[tp.Tuple[int, int], tp.Tuple[in
 
     # Return public and private keypair
     # Public key is (e, n) and private key is (d, n)
-    return ((e, n), (d, n))
+    return (e, n), (d, n)
 
 
 def encrypt(pk: tp.Tuple[int, int], plaintext: str) -> tp.List[int]:
