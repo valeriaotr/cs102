@@ -86,6 +86,7 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     start_pos = (pos[0] // 3 * 3, pos[1] // 3 * 3)
     return [grid[i][j] for i in range(start_pos[0], start_pos[0] + 3) for j in range(start_pos[1], start_pos[1] + 3)]
 
+
 def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:
     """Найти первую свободную позицию в пазле
     >>> find_empty_positions([['1', '2', '.'], ['4', '5', '6'], ['7', '8', '9']])
@@ -175,13 +176,12 @@ def generate_sudoku(number: int):
     random.shuffle(mask)
     return [[sudoku[i][j] if mask[i * 9 + j] == " " else "." for j in range(9)] for i in range(9)]
 
-    if __name__ == "__main__":
-        for file_name in ["puzzle1.txt", "puzzle2.txt", "puzzle3.txt"]:
-            answer = read_sudoku(file_name)
-            start = time.time()
-            sol = solve(answer)
-            if not sol:
-                print(f"Puzzle {file_name} can't be solved")
-            else:
-                display(sol)
-                print(f"Solved {file_name} in {time.time() - start:.2f} sec," f" {check_solution(sol)}")
+
+if __name__ == "__main__":
+    for file_name in ["puzzle1.txt", "puzzle2.txt", "puzzle3.txt"]:
+        answer = read_sudoku(file_name)
+        sol = solve(answer)
+        if not sol:
+            print(f"Puzzle {file_name} can't be solved")
+        else:
+            display(sol)
