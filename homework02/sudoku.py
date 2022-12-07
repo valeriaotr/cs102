@@ -133,19 +133,19 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """
     Если решение solution верно, то вернуть True, в противном случае False
     """
-    for i in range(0, len(solution)):
-        for j in range(0, len(solution[i])):
-            return (
-                False
-                if (
-                    solution[i][j] == "."
-                    or solution[i][j] not in "123456789"
-                    or get_row(solution, (i, j)).count(solution[i][j]) > 1
-                    or get_col(solution, (i, j)).count(solution[i][j]) > 1
-                    or get_block(solution, (i, j)).count(solution[i][j]) > 1
-                )
-                else True
-            )
+    if find_empty_positions(solution) is not None:
+        return False
+    for row in solution:
+        if len(row) != len(set(row)):
+            return False
+    for i in range(len(solution)):
+        if len(get_col(solution, (0, i))) != len(set(get_col(solution, (0, i)))):
+            return False
+    for i in range(0, len(solution), 3):
+        for j in range(0, len(solution), 3):
+            if len(get_block(solution, (i, j))) != len(set(get_block(solution, (i, j)))):
+                return False
+    return True
 
 
 def generate_sudoku(number: int):
