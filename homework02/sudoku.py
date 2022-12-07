@@ -1,6 +1,3 @@
-"""
-It's a sudoku solver.
-"""
 import pathlib
 import random
 import typing as tp
@@ -84,8 +81,8 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
     """
     start_pos = (pos[0] // 3 * 3, pos[1] // 3 * 3)
-    return [grid[i][j] for i in range(start_pos[0], start_pos[0] + 3) for j in range(start_pos[1], start_pos[1] + 3)]
-
+    list_of_lists = [grid[i + start_pos[0]][start_pos[1]: start_pos[1] + 3] for i in range(0, 3)]
+    return [cell for sublist in list_of_lists for cell in sublist]
 
 def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:
     """Найти первую свободную позицию в пазле
@@ -96,7 +93,7 @@ def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[in
     >>> find_empty_positions([['1', '2', '3'], ['4', '5', '6'], ['.', '8', '9']])
     (2, 0)
     """
-    answer = [(i, j) for i in range(0, len(grid)) for j in range(0, len(grid[i])) if grid[i][j] == "."]
+    answer = [(i, j) for i in range(len(grid)) for j in range(len(grid[i])) if grid[i][j] == "."]
     return answer[0] if answer else None
 
 
@@ -137,15 +134,11 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """
     for i in range(0, len(solution)):
         for j in range(0, len(solution[i])):
-            if (
-                solution[i][j] == "."
-                or solution[i][j] not in "123456789"
-                or get_row(solution, (i, j)).count(solution[i][j]) > 1
-                or get_col(solution, (i, j)).count(solution[i][j]) > 1
-                or get_block(solution, (i, j)).count(solution[i][j]) > 1
-            ):
-                return False
-    return True
+            return (False if (solution[i][j] == "."
+                        or solution[i][j] not in "123456789"
+                        or get_row(solution, (i, j)).count(solution[i][j]) > 1
+                        or get_col(solution, (i, j)).count(solution[i][j]) > 1
+                        or get_block(solution, (i, j)).count(solution[i][j]) > 1) else True)
 
 
 def generate_sudoku(number: int):
