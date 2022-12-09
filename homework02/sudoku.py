@@ -81,13 +81,7 @@ def get_block(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -> tp.List[s
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
     """
     start_pos = (pos[0] // 3 * 3, pos[1] // 3 * 3)
-    ans = []
-    for i in enumerate(grid):
-        if i[0] < start_pos[0] + 3 and i[0] >= start_pos[0]:
-            for j in enumerate(grid[i[0]]):
-                if j[0] < start_pos[1] + 3 and j[0] >= start_pos[1]:
-                    ans.append(j[1])
-    return ans
+    return [grid[i][j] for i in range(start_pos[0], start_pos[0] + 3) for j in range(start_pos[1], start_pos[1] + 3)]
 
 
 def find_empty_positions(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.Tuple[int, int]]:
@@ -138,17 +132,15 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
     """
     Если решение solution верно, то вернуть True, в противном случае False
     """
-    if find_empty_positions(solution) is not None:
-        return False
-    for row in solution:
-        if len(row) != len(set(row)):
-            return False
-    for i in range(len(solution)):
-        if len(get_col(solution, (0, i))) != len(set(get_col(solution, (0, i)))):
-            return False
-    for i in range(0, len(solution), 3):
-        for j in range(0, len(solution), 3):
-            if len(get_block(solution, (i, j))) != len(set(get_block(solution, (i, j)))):
+    for i in range(0, len(solution)):
+        for j in range(0, len(solution[i])):
+            if (
+                solution[i][j] == "."
+                or solution[i][j] not in "123456789"
+                or get_row(solution, (i, j)).count(solution[i][j]) > 1
+                or get_col(solution, (i, j)).count(solution[i][j]) > 1
+                or get_block(solution, (i, j)).count(solution[i][j]) > 1
+            ):
                 return False
     return True
 
@@ -190,4 +182,3 @@ if __name__ == "__main__":
             print(f"Puzzle {file_name} can't be solved")
         else:
             display(sol)
-# done
