@@ -210,7 +210,6 @@ def add_path_to_grid(
     grid: List[List[Union[str, int]]], path: Optional[Union[Tuple[int, int], List[Tuple[int, int]]]]
 ) -> List[List[Union[str, int]]]:
     """
-
     :param grid:
     :param path:
     :return:
