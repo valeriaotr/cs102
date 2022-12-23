@@ -2,7 +2,7 @@ from copy import deepcopy
 from random import choice, randint
 from typing import Any, List, Optional, Tuple, Union
 
-#import pandas as pd  # type: ignore
+# import pandas as pd  # type: ignore
 
 
 def create_grid(rows: int = 15, cols: int = 15) -> List[List[Union[str, int]]]:
@@ -215,7 +215,7 @@ def add_path_to_grid(
     :param path:
     :return:
     """
-    #print(pd.DataFrame(grid))
+    # print(pd.DataFrame(grid))
     if path:
         for i, row in enumerate(grid):
             for j, _ in enumerate(row):
