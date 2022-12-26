@@ -37,7 +37,7 @@ def show_solution():
 
 if __name__ == "__main__":
     global GRID, CELL_SIZE
-    N, M = 25, 25
+    N, M = 51, 77
 
     CELL_SIZE = 25
     GRID = bin_tree_maze(N, M)
