@@ -2,9 +2,8 @@ import pathlib
 import typing as tp
 
 import pygame
-from pygame import QUIT
-
 from life import GameOfLife
+from pygame import QUIT
 from ui import UI
 
 
