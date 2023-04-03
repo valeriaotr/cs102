@@ -1,13 +1,14 @@
 import datetime
 import json
 import re
-from datetime import datetime, timedelta # type: ignore
+
+from datetime import datetime, timedelta  # type: ignore
 from urllib.parse import urlparse
 
-import gspread # type: ignore
-import pandas as pd # type: ignore
-import requests # type: ignore
-import telebot # type: ignore
+import gspread  # type: ignore
+import pandas as pd  # type: ignore
+import requests  # type: ignore
+import telebot  # type: ignore
 
 bot = telebot.TeleBot("6233614807:AAGPQw8Wb3e132S5G3eDNa0ZO8aMF4g6HHw")
 check = False
@@ -28,14 +29,14 @@ def is_valid_date(date: str = "01/01/00", divider: str = "/") -> bool:
     if len(date_parts) < 3:
         return False
     d, m, y = list(map(int, date_parts))
-    today = list(map(int, datetime.today().date().strftime("20%y/%m/%d").split(sep="/"))) # type: ignore
-    today = datetime(today[0], today[1], today[2]) # type: ignore
+    today = list(map(int, datetime.today().date().strftime("20%y/%m/%d").split(sep="/")))  # type: ignore
+    today = datetime(today[0], today[1], today[2])  # type: ignore
     try:
-        date = datetime(2000 + y, m, d) # type: ignore
+        date = datetime(2000 + y, m, d)  # type: ignore
     except ValueError:
         return False
-    difference = date - today # type: ignore
-    if difference.days < 365 and date >= today: # type: ignore
+    difference = date - today  # type: ignore
+    if difference.days < 365 and date >= today:  # type: ignore
         return True
     else:
         return False
@@ -57,7 +58,7 @@ def is_valid_url(url: str = "") -> bool:
 
 def convert_date(date: str = "01/01/00"):
     """Конвертируем дату из строки в datetime"""
-    return datetime.strptime(date, "%d.%m.%Y") # type: ignore
+    return datetime.strptime(date, "%d.%m.%Y")  # type: ignore
 
 
 def connect_table(message):
