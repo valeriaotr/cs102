@@ -1,7 +1,6 @@
 import datetime
 import json
 import re
-
 from datetime import datetime, timedelta  # type: ignore
 from urllib.parse import urlparse
 
