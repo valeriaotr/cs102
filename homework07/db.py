@@ -1,8 +1,7 @@
+from scraputils import get_news
 from sqlalchemy import Column, Integer, String, create_engine  # type: ignore
 from sqlalchemy.ext.declarative import declarative_base  # type: ignore
 from sqlalchemy.orm import sessionmaker  # type: ignore
-
-from scraputils import get_news
 
 
 def create_db(lst):

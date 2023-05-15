@@ -1,7 +1,7 @@
 import sqlalchemy  # type: ignore
+from bayes import label_news
 from bottle import redirect, request, route, run, template  # type: ignore
 
-from bayes import label_news
 from db import News, session
 from scraputils import get_news
 
