@@ -1,9 +1,9 @@
-import sqlalchemy
-from bayes import label_news, NaiveBayesClassifier
-from bottle import redirect, request, route, run, template
+import sqlalchemy  # type: ignore
+from bayes import NaiveBayesClassifier, label_news
+from bottle import redirect, request, route, run, template  # type: ignore
 from db import News, session
-from homework07 import bayes
 from scraputils import get_news
+from homework07 import bayes  # type: ignore
 
 
 @route("/all")
