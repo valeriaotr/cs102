@@ -18,7 +18,7 @@ class NaiveBayesClassifier:
 
     def fit(self, X, y):  # подсчет статистики на основе входных данных X и меток y.
         """Fit Naive Bayes classifier according to X, y."""
-        for abscissa, ordinata in zip(X, y):
+        for abscissa, ordinata in zip(X, y):  # происходит итерация по соответствующим парам элементов X и y
             self.class_counter[ordinata] += 1  # увеличивается счетчик класса ordinata в словаре class_counter
             # Если класс ordinata еще не встречался ранее, то он
             # будет добавлен в словарь с начальным значением 0.

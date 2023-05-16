@@ -1,7 +1,8 @@
-import sqlalchemy  # type: ignore
-from bayes import label_news
-from bottle import redirect, request, route, run, template  # type: ignore
+import sqlalchemy
+from bayes import label_news, NaiveBayesClassifier
+from bottle import redirect, request, route, run, template
 from db import News, session
+from homework07 import bayes
 from scraputils import get_news
 
 
@@ -10,7 +11,8 @@ def all_news():
     session_ = session()  # создается объект сеанса базы данных
     rows = session_.query(News).all()  # Запрос запрашивает все записи из таблицы News.
     # Метод all() возвращает все найденные записи в виде списка объектов.
-    return template("news_template_2", rows=rows)  # возвращает результат выполнения шаблона news_template_2
+    return template("news_template_2", rows=session_.query(News).order_by(News.label).all())  # возвращает результат
+    # выполнения шаблона news_template_2
     # с передачей списка всех записей новостей в качестве переменной rows.
 
 

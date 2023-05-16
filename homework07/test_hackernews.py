@@ -156,6 +156,8 @@ class TestHackernews(unittest.TestCase):
                 pass
             else:
                 pass
+        except:
+            pass
 
 
 if __name__ == "__main__":

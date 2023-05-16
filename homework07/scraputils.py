@@ -1,5 +1,5 @@
-import requests  # type: ignore
-from bs4 import BeautifulSoup  # type: ignore
+import requests
+from bs4 import BeautifulSoup
 
 
 def extract_news(parser):  # извлекает новости с веб-страницы, используя парсер.
