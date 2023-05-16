@@ -4,8 +4,6 @@ from bottle import redirect, request, route, run, template  # type: ignore
 from db import News, session
 from scraputils import get_news
 
-from homework07 import bayes  # type: ignore
-
 
 @route("/all")
 def all_news():
