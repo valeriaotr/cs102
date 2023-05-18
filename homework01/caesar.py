@@ -1,32 +1,25 @@
+import typing as tp
+
+
 def encrypt_caesar(plaintext: str, shift: int = 3) -> str:
-    """
-    Encrypts plaintext using a Caesar cipher.
-    >>> encrypt_caesar("PYTHON")
-    'SBWKRQ'
-    >>> encrypt_caesar("python")
-    'sbwkrq'
-    >>> encrypt_caesar("Python3.6")
-    'Sbwkrq3.6'
-    >>> encrypt_caesar("")
-    ''
-    """
-    ciphertext = ""
-    # PUT YOUR CODE HERE
-    return ciphertext
+    len_alphabet = 26
+    encrypted = ""
+    for symbol in plaintext:
+        up_low = ord("A") if symbol.isupper() else ord("a")
+        if symbol.isalpha():
+            encrypted += chr((ord(symbol) - up_low + shift) % len_alphabet + up_low)
+        else:
+            encrypted += symbol
+    return encrypted
 
 
 def decrypt_caesar(ciphertext: str, shift: int = 3) -> str:
-    """
-    Decrypts a ciphertext using a Caesar cipher.
-    >>> decrypt_caesar("SBWKRQ")
-    'PYTHON'
-    >>> decrypt_caesar("sbwkrq")
-    'python'
-    >>> decrypt_caesar("Sbwkrq3.6")
-    'Python3.6'
-    >>> decrypt_caesar("")
-    ''
-    """
     plaintext = ""
-    # PUT YOUR CODE HERE
+    len_alphabet = 26
+    for symbol in ciphertext:
+        up_low = ord("A") if symbol.isupper() else ord("a")
+        if symbol.isalpha():
+            plaintext += chr((ord(symbol) - up_low - shift) % len_alphabet + up_low)
+        else:
+            plaintext += symbol
     return plaintext
