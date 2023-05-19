@@ -8,47 +8,35 @@ class Console(UI):
     def __init__(self, life: GameOfLife) -> None:
         super().__init__(life)
 
-        # Инициализируем screen
-        self._screen = curses.initscr()
-
-    def draw_borders(self) -> None:
+    def draw_borders(self, screen) -> None:
         """Отобразить рамку."""
-        self._screen.border("|", "|", "-", "-", "+", "+", "+", "+")
+        screen.border("|", "|", "-", "-", "+", "+", "+", "+")
 
-    def draw_grid(self) -> None:
+    def draw_grid(self, screen) -> None:
         """Отобразить состояние клеток."""
-        # Получаем количество строк и колонок в консольном поле
-        num_rows, num_cols = self._screen.getmaxyx()
-
-        # Вычисляем среднюю пазицию по колонке
-        middle_col_position = num_cols // 2 - self.life.cell_width
-        for row_index, row in enumerate(self.life.current_generation):
-            # Вычисляем среднюю позицию по строке
-            middle_row_position = num_rows // 2 - self.life.cell_height // 2 + row_index
-
-            # Склеиваем текущую строку матрицы в str тип и заменяем 0 на ' ' и 1 на *
-            row_string = " ".join((" " if value else "*" for value in row))
-            try:
-                self._screen.addstr(middle_row_position, middle_col_position, row_string)
-            except curses.error:
-                pass
+        for i, row in enumerate(self.life.current_generation):
+            for j, cell in enumerate(row):
+                if cell:
+                    screen.addstr(j + 1, i + 1, "*")
+                else:
+                    screen.addstr(j + 1, i + 1, " ")
 
     def run(self) -> None:
-        self.draw_borders()
+        screen = curses.initscr()
+        curses.resizeterm(self.life.cell_height + 2, self.life.cell_width + 2)
         while True:
-            # Отрисовка списка клеток
-            # Выполнение одного шага игры (обновление состояния ячеек)
-            self.draw_grid()
-            self._screen.refresh()
-            self.life.step()
-
-            x = self._screen.getch()
-            if x == ord("f"):
-                curses.endwin()
+            if not self.life.is_changing or self.life.is_max_generations_exceeded:
                 break
+            self.life.step()
+            self.draw_borders(screen)
+            self.draw_grid(screen)
+            screen.refresh()
+            curses.napms(400)
+        curses.endwin()
 
 
 if __name__ == "__main__":
     game = GameOfLife(size=(20, 20), randomize=True, max_generations=100)
     console = Console(life=game)
     console.run()
+    exit(0)
