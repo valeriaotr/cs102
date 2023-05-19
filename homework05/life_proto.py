@@ -179,3 +179,4 @@ if __name__ == "__main__":
     game = GameOfLife(320, 240, 20)
     game.run()
 
+# changed
