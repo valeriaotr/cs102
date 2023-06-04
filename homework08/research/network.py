@@ -20,8 +20,8 @@ def ego_network(
     coordinates = []  # пустой список,в который будут добавляться координаты друзей.
     friends_ = get_mutual(user_id, target_uids=friends, count=len(friends))  # type: ignore
     for friend in friends_:  # перебор каждого объекта в списке
-        friend_id = friend.get("id")  # извлекается значение ключа "id"
-        common_friends = friend.get("common_friends")  # извлекается значение ключа "common_friends"
+        friend_id = friend.get("id")  # type: ignore
+        common_friends = friend.get("common_friends")   # type: ignore
         if friend_id is not None and common_friends is not None:  # проверка, что идентификатор друга и список общих
             # друзей не равны None.
             for person in common_friends:  # перебираются все элементы в списке
@@ -88,7 +88,7 @@ def describe_communities(
 
 if __name__ == "__main__":
     friends_response = get_friends(user_id=239843379, fields=["nickname"])
-    active_users = [user["id"] for user in friends_response.items if not user.get("deactivated")]
+    active_users = [user["id"] for user in friends_response.items if not user.get("deactivated")]   # type: ignore
     net = ego_network(user_id=239843379, friends=active_users)
     print(net)
     plot_ego_network(net)

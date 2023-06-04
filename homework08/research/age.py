@@ -20,9 +20,8 @@ def age_predict(user_id: int) -> tp.Optional[float]:
     year = today.year  # извлекается текущий год
     age = []  # пустой список, в который будут добавляться возраста друзей.
     for element in items:  # перебор каждого элемента в списке.
-        if "bdate" in element and len(element["bdate"]) >= 9:  # проверяется, что в словаре есть ключ "bdate" и
-            # значение по этому ключу имеет длину не меньше 9 символов
-            birthdate_ = element["bdate"]  # извлекается значение даты рождения
+        if "bdate" in element and len(element["bdate"]) >= 9:   # type: ignore
+            birthdate_ = element["bdate"]   # type: ignore
             birth_year = int(birthdate_[-4:])  # Из последних четырех символов извлекается год рождения
             age.append(year - birth_year)  # Вычисляется возраст, вычитая год рождения из текущего года
     average_ = statistics.mean(age) if age else None  # вычисляется среднее значение возрастов
