@@ -4,7 +4,6 @@ import unittest
 
 import responses  # type: ignore
 
-
 from homework08.vkapi.friends import ( # type: ignore
     FriendsResponse,
     get_friends,
