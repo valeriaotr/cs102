@@ -2,8 +2,8 @@ import dataclasses
 import time
 import typing as tp
 
-from homework08.vkapi import config  # type: ignore
-from homework08.vkapi.session import Session  # type: ignore
+from vkapi import config  # type: ignore
+from vkapi.session import Session  # type: ignore
 
 QueryParams = tp.Optional[tp.Dict[str, tp.Union[str, int]]]
 

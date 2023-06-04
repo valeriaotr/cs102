@@ -3,7 +3,7 @@ import unittest
 
 import responses  # type: ignore
 
-from homework08.research.network import ego_network  # type: ignore
+from research.network import ego_network  # type: ignore
 
 
 class EgoNetworkTestCase(unittest.TestCase):

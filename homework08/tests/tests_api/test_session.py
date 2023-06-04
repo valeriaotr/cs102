@@ -6,7 +6,7 @@ import responses  # type: ignore
 from requests.exceptions import RetryError  # type: ignore
 from requests.exceptions import ConnectionError, HTTPError, ReadTimeout
 
-from homework08.vkapi.session import Session  # type: ignore
+from vkapi.session import Session  # type: ignore
 
 
 class TestSession(unittest.TestCase):
