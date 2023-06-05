@@ -34,7 +34,7 @@ class Session:
 
         retry_process = Retry(
             allowed_methods=["POST", "GET"],  # задает список разрешенных HTTP-методов,
-            max_num_of_tries=max_retries,  # задает максимальное количество повторных попыток
+            total=max_retries,  # задает максимальное количество повторных попыток
             backoff_factor=backoff_factor,  # задает коэффициент задержки между повторными попытками
             status_forcelist=possible_errors,  # задает список статусов HTTP-ответов, которые приведут к повторному
             # выполнению запроса.
