@@ -40,7 +40,6 @@ class Session:
         self.session.mount("https://", adapter)
 
     def get(self, url: str, *args: tp.Any, **kwargs: tp.Any) -> requests.Response:
-
         if "timeout" in kwargs:
             self.timeout = kwargs["timeout"]
         response = self.session.get(self.base_url + "/" + url, timeout=self.timeout, *args, **kwargs)
@@ -48,7 +47,6 @@ class Session:
         return response
 
     def post(self, url: str, *args: tp.Any, **kwargs: tp.Any) -> requests.Response:
-
         if "timeout" in kwargs:
             self.timeout = kwargs["timeout"]
         response = self.session.post(self.base_url + "/" + url, timeout=self.timeout, *args, **kwargs)
