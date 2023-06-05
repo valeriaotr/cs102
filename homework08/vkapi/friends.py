@@ -1,3 +1,4 @@
+# type: ignore
 import dataclasses
 import time
 import typing as tp
