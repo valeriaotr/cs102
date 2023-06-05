@@ -44,7 +44,7 @@ class Session:
             self.timeout = kwargs["timeout"]
         response = self.session.get(self.base_url + "/" + url, timeout=self.timeout, *args, **kwargs)
 
-        return response
+        return response  # to commit
 
     def post(self, url: str, *args: tp.Any, **kwargs: tp.Any) -> requests.Response:
         if "timeout" in kwargs:
