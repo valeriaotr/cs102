@@ -1,0 +1,61 @@
+Index: homework05/life_console.py
+===================================================================
+diff --git a/homework05/life_console.py b/homework05/life_console.py
+--- a/homework05/life_console.py	
++++ b/homework05/life_console.py	
+@@ -1,5 +1,4 @@
+ import curses
+-
+ from life import GameOfLife
+ from ui import UI
+ 
+Index: homework05/life_gui.py
+===================================================================
+diff --git a/homework05/life_gui.py b/homework05/life_gui.py
+--- a/homework05/life_gui.py	
++++ b/homework05/life_gui.py	
+@@ -1,8 +1,6 @@
+ from typing import Any, List
+-
+ import pygame
+ from pygame.locals import *
+-
+ from life import GameOfLife
+ from ui import UI
+ 
+Index: homework05/ui.py
+===================================================================
+diff --git a/homework05/ui.py b/homework05/ui.py
+--- a/homework05/ui.py	
++++ b/homework05/ui.py	
+@@ -1,5 +1,4 @@
+ import abc
+-
+ from life import GameOfLife
+ 
+ 
+Index: homework05/life.py
+===================================================================
+diff --git a/homework05/life.py b/homework05/life.py
+--- a/homework05/life.py	
++++ b/homework05/life.py	
+@@ -1,7 +1,6 @@
+ import pathlib
+ import random
+ import typing as tp
+-
+ import pygame
+ from pygame.locals import *
+ 
+Index: homework05/life_proto.py
+===================================================================
+diff --git a/homework05/life_proto.py b/homework05/life_proto.py
+--- a/homework05/life_proto.py	
++++ b/homework05/life_proto.py	
+@@ -1,6 +1,5 @@
+ import random
+ import typing as tp
+-
+ import pygame
+ from pygame.locals import *
+ 
