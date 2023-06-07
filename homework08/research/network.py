@@ -1,10 +1,10 @@
 import typing as tp
 from collections import defaultdict
 
-import community as cl
-import matplotlib.pyplot as plt
-import networkx as nx
-import pandas as pd
+import community as cl  # type: ignore
+import matplotlib.pyplot as plt  # type: ignore
+import networkx as nx  # type: ignore
+import pandas as pd  # type: ignore
 
 from homework08.vkapi.friends import get_friends, get_mutual
 
@@ -19,13 +19,11 @@ def ego_network(
     :param friends: Идентификаторы друзей, между которыми устанавливаются связи.
     """
     coordinates = []  # пустой список, в который будут добавляться координаты друзей.
-    friends_ = get_mutual(user_id, target_uids=friends, count=len(friends))  # вызывается функция и получается список
-    # общих друзей
+    friends_ = get_mutual(user_id, target_uids=friends, count=len(friends))  # type: ignore
     for friend in friends_:  # перебор каждого объекта в списке
-        friend_id = friend.get("id")  # для каждого друга из списка извлекается его идентификатор
-        common_friends = friend.get("common_friends")  # для каждого друга из списка извлекается список общих друзей
-        if friend_id is not None and common_friends is not None:  # проверка, что идентификатор друга и список общих
-            # друзей не равны None.
+        friend_id = friend.get("id")  # type: ignore
+        common_friends = friend.get("common_friends")  # type: ignore
+        if friend_id is not None and common_friends is not None:  # type: ignore
             for person in common_friends:  # перебираются все элементы в списке
                 coordinates.append((friend_id, person))  # координаты добавляются в список coordinates.
     return coordinates
@@ -103,5 +101,5 @@ if __name__ == "__main__":
     print(net)
     plot_communities(net)
     communities = get_communities(net)
-    df = describe_communities(communities, friends_response.items, fields=["first_name", "last_name"])
+    df = describe_communities(communities, friends_response.items, fields=["first_name", "last_name"])  # type: ignore
     print(df)

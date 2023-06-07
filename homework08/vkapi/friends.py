@@ -126,7 +126,7 @@ def get_mutual(
 
 if __name__ == "__main__":
     friends_response = get_friends(user_id=239843379, fields=["nickname"])
-    active_users = [user["id"] for user in friends_response.items if not user.get("deactivated")]
+    active_users = [user["id"] for user in friends_response.items if not user.get("deactivated")]  # type: ignore
     print("Number of active friends is:", len(active_users))
     mutual_friends = get_mutual(source_uid=239843379, target_uid=269738261, count=len(active_users))
     print("Number of mutual friends is:", len(mutual_friends))

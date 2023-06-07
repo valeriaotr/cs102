@@ -20,7 +20,7 @@ def age_predict(user_id: int) -> tp.Optional[float]:
     year = today.year  # извлекается текущий год
     age = []  # пустой список, в который будут добавляться возраста друзей.
     for element in items:  # перебор каждого элемента в списке.
-        if "bdate" in element and len(element["bdate"]) >= 9:  # формат даты рождения может включать как полный год
+        if "bdate" in element and len(element["bdate"]) >= 9:  # type: ignore
             # (4 цифры), так и сокращенный год (2 цифры).
             birthdate_ = element["bdate"]  # type: ignore
             birth_year = int(birthdate_[-4:])  # Из последних четырех символов извлекается год рождения
