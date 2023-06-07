@@ -57,13 +57,13 @@ class MutualFriends(tp.TypedDict):
 
 
 def get_mutual(
-        source_uid: tp.Optional[int] = None,
-        target_uid: tp.Optional[int] = None,
-        target_uids: tp.Optional[tp.List[int]] = None,
-        order: str = "",
-        count: tp.Optional[int] = None,
-        offset: int = 0,
-        progress=None,
+    source_uid: tp.Optional[int] = None,
+    target_uid: tp.Optional[int] = None,
+    target_uids: tp.Optional[tp.List[int]] = None,
+    order: str = "",
+    count: tp.Optional[int] = None,
+    offset: int = 0,
+    progress=None,
 ) -> tp.Union[tp.List[int], tp.List[MutualFriends]]:
     """
     Получить список идентификаторов общих друзей между парой пользователей.
@@ -114,7 +114,7 @@ def get_mutual(
         # API-запроса friends.getMutual, такие как access_token, source_uid, target_uid, count, offset и version_.
         # Значения этих параметров подставляются в строку с помощью фигурных скобок и переменных.
         url = f"friends.getMutual?access_token={access_token}&source_uid={source_uid}&target_uid={target_uid}&count={count}&offset={offset}&v={version_}"
-        friends = session_.get(url) # Выполнение HTTP-запроса с помощью метода get объекта session_.
+        friends = session_.get(url)  # Выполнение HTTP-запроса с помощью метода get объекта session_.
         # Запрос отправляется на URL, указанный в переменной url, и результат сохраняется в переменной friends.
         results_of_requests.extend(friends.json()["response"])  # Извлечение данных из JSON-ответа на запрос.
         # Метод json() возвращает JSON-ответ в виде словаря, и с помощью ключа "response" извлекаются данные общ. друзей

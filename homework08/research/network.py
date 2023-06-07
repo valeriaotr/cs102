@@ -87,7 +87,9 @@ def describe_communities(
         for uid in cluster_users:  # Если идентификатор пользователя присутствует в кластере
             for friend in friends:  # перебираются друзья
                 if uid == friend["id"]:
-                    inf_w_data.append([cluster_number] + [friend.get(field) for field in fields])  # Создается список, в котором
+                    inf_w_data.append(
+                        [cluster_number] + [friend.get(field) for field in fields]
+                    )  # Создается список, в котором
                     # первым элементом является номер кластера, а остальные элементы - значения полей "first_name" и
                     # "last_name" из словаря friend. Полученный список добавляется в список data.
                     break
