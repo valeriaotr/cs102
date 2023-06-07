@@ -30,4 +30,4 @@ def age_predict(user_id: int) -> tp.Optional[float]:
 
 
 if __name__ == "__main__":
-    print(age_predict(189183825))
+    print(age_predict(189183825))  # to commit
