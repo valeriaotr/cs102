@@ -1,10 +1,9 @@
-# type: ignore
 import dataclasses
 import time
 import typing as tp
 
-from homework08.vkapi import config  # type: ignore
-from homework08.vkapi.session import Session  # type: ignore
+from homework08.vkapi import config
+from homework08.vkapi.session import Session
 
 QueryParams = tp.Optional[tp.Dict[str, tp.Union[str, int]]]
 
@@ -54,17 +53,17 @@ def get_friends(user_id: int, count: int = 5000, offset: int = 0, fields: tp.Any
 class MutualFriends(tp.TypedDict):
     id: int
     common_friends: tp.List[int]
-    common_count: int
+    num_of_common_friends: int
 
 
 def get_mutual(
-    source_uid: tp.Optional[int] = None,
-    target_uid: tp.Optional[int] = None,
-    target_uids: tp.Optional[tp.List[int]] = None,
-    order: str = "",
-    count: tp.Optional[int] = None,
-    offset: int = 0,
-    progress=None,
+        source_uid: tp.Optional[int] = None,
+        target_uid: tp.Optional[int] = None,
+        target_uids: tp.Optional[tp.List[int]] = None,
+        order: str = "",
+        count: tp.Optional[int] = None,
+        offset: int = 0,
+        progress=None,
 ) -> tp.Union[tp.List[int], tp.List[MutualFriends]]:
     """
     Получить список идентификаторов общих друзей между парой пользователей.
@@ -83,29 +82,43 @@ def get_mutual(
     session_ = Session(domain)  # базовый URL для сеанса.
     results_of_requests = []  # пустой список, который будет содержать результаты запросов.
 
-    if target_uids:
-        for i in range(((len(target_uids) - 1) // 100) + 1):
+    if target_uids:  # если переменная target_uids не является пустой
+        for i in range(((len(target_uids) - 1) // 100) + 1):  # Цикл, который выполняется для каждого значения i
+            # В диапазоне от 0 до (((len(target_uids) - 1) // 100) + 1).
+            # Это позволяет разделить список target_uids на группы по 100 идентификаторов (так как VK API имеет
+            # ограничение на количество идентификаторов в одном запросе).
             try:
-                # Для каждой группы идентификаторов создается URL-запрос
-                url = f"friends.getMutual?access_token={access_token}&source_uid={source_uid}&target_uids={','.join(list(map(str, target_uids)))}&count={count}&offset={i*100}&v={version_}"
+                # Формирование строки url с помощью форматирования строк (f-строки). В этой строке указываются
+                # параметры для API-запроса friends.getMutual, такие как access_token, source_uid, target_uid, count,
+                # offset и version_. Значения этих параметров подставляются в строку с помощью фигурных скобок и
+                # переменных.
+                url = f"friends.getMutual?access_token={access_token}&source_uid={source_uid}&target_uids={','.join(list(map(str, target_uids)))}&count={count}&offset={i * 100}&v={version_}"
                 friends = session_.get(url)  # GET-запрос объекта session_, передавая ему созданный URL.
-                for friend in friends.json()["response"]:
+                for friend in friends.json()["response"]:  # Цикл, который перебирает каждого друга в ответе от VK API.
+                    # Объекты друзей извлекаются из JSON-ответа с помощью ключа "response".
                     results_of_requests.append(  # Полученные друзья обрабатываются и добавляются в список в виде
                         # объекта MutualFriends, содержащего идентификатор друга, список общих друзей и количество общих
                         MutualFriends(
                             id=friend["id"],
                             common_friends=list(map(int, friend["common_friends"])),
-                            common_count=friend["common_count"],
+                            num_of_common_friends=friend["common_count"],
                         )
                     )
             except KeyError:
                 pass
-            time.sleep(0.34)
+            time.sleep(0.34)  # Задержка выполнения программы на 0.34 секунды с помощью функции sleep() из модуля time.
+            # для соблюдения ограничений VK API на частоту запросов.
         return results_of_requests
     try:
+        # Формирование строки url с помощью форматирования строк (f-строки). В этой строке указываются параметры для
+        # API-запроса friends.getMutual, такие как access_token, source_uid, target_uid, count, offset и version_.
+        # Значения этих параметров подставляются в строку с помощью фигурных скобок и переменных.
         url = f"friends.getMutual?access_token={access_token}&source_uid={source_uid}&target_uid={target_uid}&count={count}&offset={offset}&v={version_}"
-        friends = session_.get(url)
-        results_of_requests.extend(friends.json()["response"])
+        friends = session_.get(url) # Выполнение HTTP-запроса с помощью метода get объекта session_.
+        # Запрос отправляется на URL, указанный в переменной url, и результат сохраняется в переменной friends.
+        results_of_requests.extend(friends.json()["response"])  # Извлечение данных из JSON-ответа на запрос.
+        # Метод json() возвращает JSON-ответ в виде словаря, и с помощью ключа "response" извлекаются данные общ. друзей
+        # Затем метод extend() используется для добавления данных в список results_of_requests.
     except:
         pass
     return results_of_requests
@@ -113,8 +126,8 @@ def get_mutual(
 
 if __name__ == "__main__":
     friends_response = get_friends(user_id=239843379, fields=["nickname"])
-    active_users = [user["id"] for user in friends_response.items if not user.get("deactivated")]  # type: ignore
-    print("Number of active friends is", len(active_users))
+    active_users = [user["id"] for user in friends_response.items if not user.get("deactivated")]
+    print("Number of active friends is:", len(active_users))
     mutual_friends = get_mutual(source_uid=239843379, target_uid=269738261, count=len(active_users))
-    print("Number of mutual friends is", len(mutual_friends))
-    print("List of IDs of mutual friends is", mutual_friends)
+    print("Number of mutual friends is:", len(mutual_friends))
+    print("List of IDs of mutual friends is:", mutual_friends)

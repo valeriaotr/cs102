@@ -1,12 +1,12 @@
 import typing as tp
 from collections import defaultdict
 
-import community as cl  # type: ignore
-import matplotlib.pyplot as plt  # type: ignore
-import networkx as nx  # type: ignore
-import pandas as pd  # type: ignore
+import community as cl
+import matplotlib.pyplot as plt
+import networkx as nx
+import pandas as pd
 
-from homework08.vkapi.friends import get_friends, get_mutual  # type: ignore
+from homework08.vkapi.friends import get_friends, get_mutual
 
 
 def ego_network(
@@ -18,25 +18,27 @@ def ego_network(
     :param user_id: Идентификатор пользователя, для которого строится граф друзей.
     :param friends: Идентификаторы друзей, между которыми устанавливаются связи.
     """
-    coordinates = []  # пустой список,в который будут добавляться координаты друзей.
-    friends_ = get_mutual(user_id, target_uids=friends, count=len(friends))  # type: ignore
+    coordinates = []  # пустой список, в который будут добавляться координаты друзей.
+    friends_ = get_mutual(user_id, target_uids=friends, count=len(friends))  # вызывается функция и получается список
+    # общих друзей
     for friend in friends_:  # перебор каждого объекта в списке
-        friend_id = friend.get("id")  # type: ignore
-        common_friends = friend.get("common_friends")  # type: ignore
+        friend_id = friend.get("id")  # для каждого друга из списка извлекается его идентификатор
+        common_friends = friend.get("common_friends")  # для каждого друга из списка извлекается список общих друзей
         if friend_id is not None and common_friends is not None:  # проверка, что идентификатор друга и список общих
             # друзей не равны None.
             for person in common_friends:  # перебираются все элементы в списке
-                coordinates.append((friend_id, person))  # координаты  добавляются в список coordinates.
+                coordinates.append((friend_id, person))  # координаты добавляются в список coordinates.
     return coordinates
 
 
 def plot_ego_network(net: tp.List[tp.Tuple[int, int]]) -> None:
+    """Используется для визуализации графа без выделения групп узлов"""
     gr = nx.Graph()  # Создается пустой граф
     gr.add_edges_from(net)  # К графу добавляются ребра, заданные в переменной net
     # Это создает структуру графа, где каждое ребро представлено парой узлов.
     layout = nx.spring_layout(gr)  # Создается расположение для узлов графа
     # Расположение определяет позиции узлов на графической плоскости.
-    nx.draw(gr, layout, node_size=25, node_color="red", alpha=0.8)  # происходит отрисовка графа с использованием
+    nx.draw(gr, layout, node_size=25, node_color="black", alpha=0.2)  # происходит отрисовка графа с использованием
     # Указанного расположения. Здесь также задаются параметры отображения графа, такие как размер узлов, цвет узлов
     # и прозрачность.
     plt.title("Ego Network", size=15)
@@ -44,6 +46,7 @@ def plot_ego_network(net: tp.List[tp.Tuple[int, int]]) -> None:
 
 
 def plot_communities(net: tp.List[tp.Tuple[int, int]]) -> None:
+    """Используется для визуализации графа с выделением групп узлов"""
     gr = nx.Graph()  # Создается пустой граф
     gr.add_edges_from(net)  # К графу добавляются ребра, заданные в переменной net
     # Это создает структуру графа, где каждое ребро представлено парой узлов.
@@ -58,6 +61,7 @@ def plot_communities(net: tp.List[tp.Tuple[int, int]]) -> None:
 
 
 def get_communities(net: tp.List[tp.Tuple[int, int]]) -> tp.Dict[int, tp.List[int]]:
+    """Получаем инф-ию о группах узлов в графе"""
     node_groups = defaultdict(list)  # В этом словаре будут храниться группы узлов графа.
     gr = nx.Graph()  # Создается пустой граф
     gr.add_edges_from(net)  # К графу добавляются ребра, заданные в переменной net
@@ -75,16 +79,19 @@ def describe_communities(
     friends: tp.List[tp.Dict[str, tp.Any]],  # список словарей с информацией о друзьях
     fields: tp.Optional[tp.List[str]] = None,  # опциональный список полей, по умолчанию равен None
 ) -> pd.DataFrame:
-    if fields is None:  # Если равен None, то он присваивается значение ["first_name", "last_name"].
+    """Описание групп узлов в графе"""
+    if fields is None:  # Если равен None, то присваивается значение ["first_name", "last_name"].
         fields = ["first_name", "last_name"]
-    data = []  # пустой список, в который будут добавляться данные о кластерах и соответствующих им пользователях.
-    for cluster_n, cluster_users in clusters.items():  # перебираются элементы пар
+    inf_w_data = []  # пустой список, в который будут добавляться данные о кластерах и соответствующих им пользователях.
+    for cluster_number, cluster_users in clusters.items():  # перебираются элементы пар
         for uid in cluster_users:  # Если идентификатор пользователя присутствует в кластере
             for friend in friends:  # перебираются друзья
                 if uid == friend["id"]:
-                    data.append([cluster_n] + [friend.get(field) for field in fields])  # type: ignore
+                    inf_w_data.append([cluster_number] + [friend.get(field) for field in fields])  # Создается список, в котором
+                    # первым элементом является номер кластера, а остальные элементы - значения полей "first_name" и
+                    # "last_name" из словаря friend. Полученный список добавляется в список data.
                     break
-    return pd.DataFrame(data=data, columns=["cluster"] + fields)
+    return pd.DataFrame(data=inf_w_data, columns=["cluster"] + fields)
 
 
 if __name__ == "__main__":
@@ -92,4 +99,7 @@ if __name__ == "__main__":
     active_users = [user["id"] for user in friends_response.items if not user.get("deactivated")]  # type: ignore
     net = ego_network(user_id=239843379, friends=active_users)
     print(net)
-    plot_ego_network(net)
+    plot_communities(net)
+    communities = get_communities(net)
+    df = describe_communities(communities, friends_response.items, fields=["first_name", "last_name"])
+    print(df)
